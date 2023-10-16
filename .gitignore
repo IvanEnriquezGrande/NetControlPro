@@ -1,3 +1,10 @@
 *__pycache__*
 /venv/
 myenv/*
+bin/*
+include/*
+lib/*
+lib64
+pyvenv.cfg
+
+
