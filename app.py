@@ -36,5 +36,29 @@ def index():
 
     return render_template('index.html', devices=devices)
 
+def buscar_en_base_de_datos(consulta):
+    conexion = conectar_db()
+
+    cursor = conexion.cursor()
+    dispositivo = request.form.get("consulta")
+
+    cursor.execute("SELECT device_name FROM devices WHERE device_name LIKE '%s'" % dispositivo)
+    resultados = cursor.fetchall()
+    connection.close()
+
+    return resultados
+
+@app.route('/obtener_coincidencia', methods=["GET", "POST"])
+def obtener_coincidencia():
+    resultados = buscar_en_base_de_datos()
+    
+    if resultados:
+        for resultado in resultados:
+            return resultados
+    else:
+        return "No se encontraron resultados."
+    
+    return 'Hola'
+
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
