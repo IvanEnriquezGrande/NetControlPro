@@ -38,7 +38,13 @@
                         {% for device in devices %}
                             <tr>
                                 <th class="text-center align-middle">{{ device.device_id }}</th>
-                                <td class="text-center align-middle"> {{ device.device_name }}</td>
+                                <td class="text-center align-middle">
+                                    {% if device.device_type == 'switch' %}
+                                        <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{{ url_for('switch_config', device_id=device.device_id) }}">{{ device.device_name }}</a>
+                                    {% else %}
+                                        <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{{ url_for('router_config', device_id=device.device_id) }}">{{ device.device_name }}</a>
+                                    {% endif %}
+                                </td>
                                 <td class="text-center align-middle">{{ device.device_ip }}</td>
                                 <td class="text-center align-middle">
                                     {% if device.device_type == 'switch' %}
