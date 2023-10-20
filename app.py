@@ -93,5 +93,15 @@ def index():
 
     return render_template('index.html', devices=devices)
 
+# Route for switch configuration
+@app.route("/switch-config/<device_id>")
+def switch_config(device_id):
+    return render_template('switch-config.html', switch_id=device_id)
+
+# Route for router configuration
+@app.route("/router-config/<device_id>")
+def router_config(device_id):
+    return render_template('router-config.html', router_id=device_id)
+
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
