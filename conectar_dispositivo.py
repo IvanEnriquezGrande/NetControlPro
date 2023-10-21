@@ -1,16 +1,9 @@
 from netmiko import ConnectHandler
+from app import conectar_db
 import mysql.connector
 
 def insertar_tipo_dispositivo(dispositivo):
-
-    mydb = mysql.connector.connect(
-        user = 'root',
-        password = 'root',
-        host='127.0.0.1', 
-        port=3306,
-        database='devices'
-    )
-
+    mydb = conectar_db()
     cursor = mydb.cursor()
 
     cursor.execute("INSERT INTO devices (device_type) VALUES (dispositivo);")
