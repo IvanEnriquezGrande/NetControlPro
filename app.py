@@ -75,7 +75,58 @@ def edit(id):
     conexion.commit()
 
     return redirect(url_for('index'))
-    
+
+#MUESTRA SOLO LOS ROUTERS    
+@app.route('/routers')
+def routers():
+     # Conectarse a la base de datos
+    conexion = conectar_db()
+    cursor = conexion.cursor(dictionary=True)
+
+    # Obtener los datos de la base de datos
+    cursor.execute("SELECT * FROM devices WHERE device_type = 'router'")
+    devices = cursor.fetchall()
+
+    # Cerrar la conexión a la base de datos
+    cursor.close()
+    conexion.close()
+
+    return render_template('index.html', devices=devices)
+
+#MUESTRA SOLO LOS SWITCHES
+@app.route('/switches')
+def switches():
+     # Conectarse a la base de datos
+    conexion = conectar_db()
+    cursor = conexion.cursor(dictionary=True)
+
+    # Obtener los datos de la base de datos
+    cursor.execute("SELECT * FROM devices WHERE device_type = 'switch'")
+    devices = cursor.fetchall()
+
+    # Cerrar la conexión a la base de datos
+    cursor.close()
+    conexion.close()
+
+    return render_template('index.html', devices=devices)
+
+#MUESTRA TODOS LOS DISPOSITIVOS
+@app.route("/all_devices")
+def all_devices():
+     # Conectarse a la base de datos
+    conexion = conectar_db()
+    cursor = conexion.cursor(dictionary=True)
+
+    # Obtener los datos de la base de datos
+    cursor.execute("SELECT * FROM devices")
+    devices = cursor.fetchall()
+
+    # Cerrar la conexión a la base de datos
+    cursor.close()
+    conexion.close()
+
+    return render_template('index.html', devices=devices)
+
 
 @app.route("/")
 def index():

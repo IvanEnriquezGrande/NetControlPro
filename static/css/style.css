@@ -2,17 +2,30 @@ body {
     font-size: medium;
     font-style: normal;
     background: scroll;
-  }
+}
 
-header .contenedor .navbar-custom{
+header .contenedor .navbar-custom {
     justify-content: center;
     font-size: larger;
     padding: 10px;
-    background-color: #F4DB81;
+    background-color: #2F9BFE;
 }
 
-body .tabla{
+body .tabla {
     padding: 50px;
     align-items: center;
     justify-content: center;
+}
+
+body .confs {
+    padding: 50px;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+}
+
+body .confs_cont{
+    padding: 20px;
+    border: 2px solid lightgrey;
+    border-radius: 15px;
 }

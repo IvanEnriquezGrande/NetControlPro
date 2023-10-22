@@ -11,8 +11,9 @@
                 Dispositivos
             </a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Routers</a></li>
-                <li><a class="dropdown-item" href="#">Switches</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('all_devices')}}">Todos los dispositivos</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('routers')}}">Routers</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('switches')}}">Switches</a></li>
             </ul>
         </li>
     </ul>
