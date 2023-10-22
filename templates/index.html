@@ -69,25 +69,34 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLongTitle">Editar información de dispositivo</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                            </button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <form action="/edit/{{device.device_id}}" method="POST">
-                                                <label>Ip del Dispositivo:</label>
-                                                <input type="text" name="deviceIp" value="{{ device.device_ip }}">
-
-                                                <label>Nombre del Dispositivo:</label>
-                                                <input type="text" name="deviceName" value="{{ device.device_name }}">
-
-                                                <label>Nombre del Usuario:</label>
-                                                <input type="text" name="deviceUsername" value="{{ device.device_username }}">
-
-                                                <label>Contraseña del Dispositivo:</label>
-                                                <input type="text" name="devicePassword" value="{{ device.device_password }}">
-                                                <br>
-
+                                                <div class="form-group row py-1">
+                                                    <label class="col-form-label col-sm-6">IP del Dispositivo:</label>
+                                                    <div class="col-sm-6">
+                                                        <input class="form-control border border-secondary" type="text" name="deviceIp" value="{{ device.device_ip }}">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row py-1">
+                                                    <label class="col-form-label col-sm-6">Nombre del Dispositivo:</label>
+                                                    <div class="col-sm-6">
+                                                        <input class="form-control border border-secondary" type="text" name="deviceName" value="{{ device.device_name }}">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row py-1">
+                                                    <label class="col-form-label col-sm-6">Nombre del Usuario:</label>
+                                                    <div class="col-sm-6">
+                                                        <input class="form-control border border-secondary" type="text" name="deviceUsername" value="{{ device.device_username }}">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row py-1">
+                                                    <label class="col-form-label col-sm-6">Contraseña del Dispositivo:</label>
+                                                    <div class="col-sm-6">
+                                                        <input class="form-control border border-secondary" type="text" name="devicePassword" value="{{ device.device_password }}">
+                                                    </div>
+                                                </div>
                                                 <div class="modal-footer">
                                                     <input type="submit" value="Guardar" class="btn btn-primary">
                                                 </div>
@@ -107,25 +116,35 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                            <h5 class="modal-title" id="exampleModalLongTitle">Agregar dispositivo</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form method="POST" action="{{ url_for('add') }}">
-                                <label>Ip del Dispositivo:</label>
-                                <input type="text" name="deviceIp">
-
-                                <label>Nombre del Dispositivo:</label>
-                                <input type="text" name="deviceName">
-
-                                <label>Nombre del Usuario:</label>
-                                <input type="text" name="deviceUsername">
-
-                                <label>Contraseña del Dispositivo:</label>
-                                <input type="text" name="devicePassword">
-                                <br>
+                                <div class="form-group row py-1">
+                                    <label class="col-form-label col-sm-6">IP del Dispositivo:</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control border border-secondary" type="text" name="deviceIp" placeholder="IP">
+                                    </div>
+                                </div>
+                                <div class="form-group row py-1">
+                                    <label class="col-form-label col-sm-6">Nombre del Dispositivo:</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control border border-secondary" type="text" name="deviceName" placeholder="Nombre">
+                                    </div>
+                                </div>
+                                <div class="form-group row py-1">
+                                    <label class="col-form-label col-sm-6">Nombre del Usuario:</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control border border-secondary" type="text" name="deviceUsername" placeholder="Nombre del usuario">
+                                    </div>
+                                </div>
+                                <div class="form-group row py-1">
+                                    <label class="col-form-label col-sm-6">Contraseña del Dispositivo:</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control border border-secondary" type="password" name="devicePassword" placeholder="Contraseña">
+                                    </div>
+                                </div>
                                 <div class="modal-footer">
                                     <input type="submit" value="Guardar" class="btn btn-primary">
                                 </div>
