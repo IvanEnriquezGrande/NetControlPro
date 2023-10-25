@@ -7,8 +7,8 @@ CREATE TABLE devices(
     device_username varchar(40) NOT NULL,
     device_password varchar(30) NOT NULL,
     device_ip varchar(15) UNIQUE NOT NULL,
-    device_type varchar(20) NOT NULL,
-    add_date DATE NOT NULL,
+    device_type varchar(20) NOT NULL DEFAULT 'unknown',
+    add_date DATE NOT NULL DEFAULT (CURRENT_DATE),
     PRIMARY KEY (device_id) 
 );
 
