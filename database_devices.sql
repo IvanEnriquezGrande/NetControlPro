@@ -6,7 +6,7 @@ CREATE TABLE devices(
     device_name varchar(30) UNIQUE NOT NULL,
     device_username varchar(40) NOT NULL,
     device_password varchar(30) NOT NULL,
-    device_ip varchar(12) UNIQUE NOT NULL,
+    device_ip varchar(15) UNIQUE NOT NULL,
     device_type varchar(20) NOT NULL,
     add_date DATE NOT NULL,
     PRIMARY KEY (device_id) 
