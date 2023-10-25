@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
+from conectar_dispositivo import conexion_equipo
+
 import mysql.connector
 
 app = Flask(__name__)
@@ -33,8 +35,10 @@ def add():
         deviceUsername = request.form['deviceUsername']
         devicePassword = request.form['devicePassword']
 
-        query = f"INSERT INTO devices (device_ip, device_name, device_username, device_password) VALUES (%s, %s, %s, %s)"
-        data = (deviceIp, deviceName, deviceUsername, devicePassword)
+        deviceType = conexion_equipo(deviceIp, deviceUsername, devicePassword)
+
+        query = f"INSERT INTO devices (device_ip, device_name, device_username, device_password, device_type) VALUES (%s, %s, %s, %s, %s)"
+        data = (deviceIp, deviceName, deviceUsername, devicePassword, deviceType)
 
         cursor.execute(query, data)
         conexion.commit()
