@@ -131,6 +131,39 @@ def all_devices():
 
     return render_template('index.html', devices=devices)
 
+#ORDENA POR NOMBRE   
+@app.route('/order_name')
+def order_name():
+     # Conectarse a la base de datos
+    conexion = conectar_db()
+    cursor = conexion.cursor(dictionary=True)
+
+    # Obtener los datos de la base de datos
+    cursor.execute("SELECT * FROM devices ORDER BY device_name")
+    devices = cursor.fetchall()
+
+    # Cerrar la conexión a la base de datos
+    cursor.close()
+    conexion.close()
+
+    return render_template('index.html', devices=devices)
+
+#ORDENA POR FECHA   
+@app.route('/order_date')
+def order_date():
+     # Conectarse a la base de datos
+    conexion = conectar_db()
+    cursor = conexion.cursor(dictionary=True)
+
+    # Obtener los datos de la base de datos
+    cursor.execute("SELECT * FROM devices ORDER BY add_date")
+    devices = cursor.fetchall()
+
+    # Cerrar la conexión a la base de datos
+    cursor.close()
+    conexion.close()
+
+    return render_template('index.html', devices=devices)
 
 @app.route("/")
 def index():

@@ -73,4 +73,3 @@ def conexion_equipo(ip, username, password):
     tipo_dispositivo = obtener_tipo_dispositivo(conexion)
     print(tipo_dispositivo)
     return tipo_dispositivo
-    return 0
