@@ -7,51 +7,155 @@
     <title>NetControl</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
 </head>
 {% extends 'base.html' %}
 {% block title %}Página de Inicio{% endblock %}
 {% block content %}
 
 <body>
-    <div class="tabla">
-        <div class="table-responsive">
-            <table class="table table-striped table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th class="text-center">ID</th>
-                        <th class="text-center">Nombre</th>
-                        <th class="text-center">Dirección ip</th>
-                        <th class="text-center">Tipo de dispositivo</th>
-                        <th class="text-center">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for device in devices %}
-                    <tr>
-                        <th class="text-center align-middle">{{ device.device_id }}</th>
-                        <td class="text-center align-middle"> {{ device.device_name }}</td>
-                        <td class="text-center align-middle">{{ device.device_ip }}</td>
-                        <td class="text-center align-middle">
-                            {% if device.device_type == 'switch' %}
-                            <img src="{{ url_for('static', filename='img/switch.svg') }}" alt="Switch" width="100" height="70" />
-                            {% else %}
-                                <img src="{{ url_for('static', filename='img/router.svg') }}" alt="Router" width="100" height="70" />
-                            {% endif %}
-                        </td>
-                        <td class="text-center align-middle">
-                            <button type="button" class="btn btn-primary"><i
-                                    class="bi bi-ethernet"></i></button>
-                            <button type="button" class="btn btn-warning"><i class="bi bi-pencil-square"></i></button>
-                            <button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    <div class="card shadow mb-4 mt-5 mx-5 p-2">
+        <div class="card-header py-3 d-flex justify-content-between">
+            <h6 class="m-0 font-weight-bold text-right">Tabla de dispositivos</h6>
+            <button class="btn btn-primary text-left" id="btn-create-device" data-bs-toggle="modal" data-bs-target="#createDeviceModal"><i class="bi bi-database-add"></i> Agregar dispositivo</button>
+        </div>
+        
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-center">ID</th>
+                            <th class="text-center">Nombre</th>
+                            <th class="text-center">Dirección ip</th>
+                            <th class="text-center">Tipo de dispositivo</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for device in devices %}
+                            <tr>
+                                <th class="text-center align-middle">{{ device.device_id }}</th>
+                                <td class="text-center align-middle">
+                                    {% if device.device_type == 'switch' %}
+                                        <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{{ url_for('switch_config', device_id=device.device_id) }}">{{ device.device_name }}</a>
+                                    {% else %}
+                                        <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{{ url_for('router_config', device_id=device.device_id) }}">{{ device.device_name }}</a>
+                                    {% endif %}
+                                </td>
+                                <td class="text-center align-middle">{{ device.device_ip }}</td>
+                                <td class="text-center align-middle">
+                                    {% if device.device_type == 'switch' %}
+                                    <img src="{{ url_for('static', filename='img/switch.svg') }}" alt="Switch" width="100" height="70" />
+                                    {% else %}
+                                        <img src="{{ url_for('static', filename='img/router.svg') }}" alt="Router" width="100" height="70" />
+                                    {% endif %}
+                                </td>
+                                <td class="text-center align-middle">
+                                    <button type="button" class="btn btn-primary" id="openEditModal"><i class="bi bi-ethernet"></i></button>
+                                    <button type="button" class="btn btn-warning" id="btn-edit{{device.device_id}}" data-bs-toggle="modal" data-bs-target="#modal{{device.device_id}}"><i class="bi bi-pencil-square"></i></button>
+                                    <a href="{{ url_for('delete', id=device.device_id)}}">
+                                        <button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                                    </a>
+                                </td>
+                            </tr>
+
+
+                            <!-- Edit device Modal -->
+                            <div class="modal fade" id="modal{{device.device_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Editar información de dispositivo</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/edit/{{device.device_id}}" method="POST">
+                                                <div class="form-group row py-1">
+                                                    <label class="col-form-label col-sm-6">IP del Dispositivo:</label>
+                                                    <div class="col-sm-6">
+                                                        <input class="form-control border border-secondary" type="text" name="deviceIp" value="{{ device.device_ip }}">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row py-1">
+                                                    <label class="col-form-label col-sm-6">Nombre del Dispositivo:</label>
+                                                    <div class="col-sm-6">
+                                                        <input class="form-control border border-secondary" type="text" name="deviceName" value="{{ device.device_name }}">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row py-1">
+                                                    <label class="col-form-label col-sm-6">Nombre del Usuario:</label>
+                                                    <div class="col-sm-6">
+                                                        <input class="form-control border border-secondary" type="text" name="deviceUsername" value="{{ device.device_username }}">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row py-1">
+                                                    <label class="col-form-label col-sm-6">Contraseña del Dispositivo:</label>
+                                                    <div class="col-sm-6">
+                                                        <input class="form-control border border-secondary" type="text" name="devicePassword" value="{{ device.device_password }}">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <input type="submit" value="Guardar" class="btn btn-primary">
+                                                </div>
+                                            </form> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- End Edit device Modal -->
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+
+            <!-- Add device Modal -->
+            <div class="modal fade" id="createDeviceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Agregar dispositivo</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="{{ url_for('add') }}">
+                                <div class="form-group row py-1">
+                                    <label class="col-form-label col-sm-6">IP del Dispositivo:</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control border border-secondary" type="text" name="deviceIp" placeholder="IP">
+                                    </div>
+                                </div>
+                                <div class="form-group row py-1">
+                                    <label class="col-form-label col-sm-6">Nombre del Dispositivo:</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control border border-secondary" type="text" name="deviceName" placeholder="Nombre">
+                                    </div>
+                                </div>
+                                <div class="form-group row py-1">
+                                    <label class="col-form-label col-sm-6">Nombre del Usuario:</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control border border-secondary" type="text" name="deviceUsername" placeholder="Nombre del usuario">
+                                    </div>
+                                </div>
+                                <div class="form-group row py-1">
+                                    <label class="col-form-label col-sm-6">Contraseña del Dispositivo:</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control border border-secondary" type="password" name="devicePassword" placeholder="Contraseña">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="submit" value="Guardar" class="btn btn-primary">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End Add device Modal -->
         </div>
     </div>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>

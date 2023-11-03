@@ -1,0 +1,35 @@
+<nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+        <a href="/" class="navbar-link text-decoration-none">
+            <span class="navbar-brand mb-0 h1">NetControlPro</span>
+        </a>
+    </div>
+    <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Ordenar por
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{ url_for('order_name')}}">Nombre</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('order_date')}}">Fecha</a></li>
+            </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Dispositivos
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{ url_for('all_devices')}}">Todos los dispositivos</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('routers')}}">Routers</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('switches')}}">Switches</a></li>
+            </ul>
+        </li>
+    </ul>
+    <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-dark" type="submit">Buscar</button>
+    </form>
+</nav>
