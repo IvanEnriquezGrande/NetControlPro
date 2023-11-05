@@ -18,7 +18,7 @@ def add():
 
         deviceType = conexion_equipo(deviceIp, deviceUsername, devicePassword)
 
-        query = f"INSERT INTO devices (device_ip, device_name, device_username, device_password, device_type) VALUES (%s, %s, %s, %s, %s)"
+        query = f"INSERT INTO devices (device_ip, device_name, device_username, device_password, device_type, add_date) VALUES (%s, %s, %s, %s, %s, CURRENT_DATE)"
         data = (deviceIp, deviceName, deviceUsername, devicePassword, deviceType)
 
         cursor.execute(query, data)
