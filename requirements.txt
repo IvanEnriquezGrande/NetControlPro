@@ -17,6 +17,7 @@ protobuf==4.21.12
 pycparser==2.21
 PyNaCl==1.5.0
 pyserial==3.5
+python-dotenv==1.0.0
 PyYAML==6.0.1
 scp==0.14.5
 six==1.16.0

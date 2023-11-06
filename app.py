@@ -1,27 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for
 from conectar_dispositivo import conexion_equipo
-
-import mysql.connector
+from database import conectar_db
 
 app = Flask(__name__)
-
-# Configuración de la base de datos
-app.config['DB_HOST'] = '127.0.0.1'
-app.config['DB_USER'] = 'root'
-app.config['DB_PASSWORD'] = 'root'
-app.config['DB_DATABASE'] = 'devices'
-app.config['DB_PORT'] = 3306  # Puerto MySQL predeterminado
-
-# Función para conectar a la base de datos
-def conectar_db():
-    return mysql.connector.connect(
-        host=app.config['DB_HOST'],
-        user=app.config['DB_USER'],
-        password=app.config['DB_PASSWORD'],
-        database=app.config['DB_DATABASE'],
-        port=app.config['DB_PORT']  # Especificar el puerto aquí
-    )
-
 
 @app.route("/add", methods=['POST'])
 def add():
@@ -37,7 +18,7 @@ def add():
 
         deviceType = conexion_equipo(deviceIp, deviceUsername, devicePassword)
 
-        query = f"INSERT INTO devices (device_ip, device_name, device_username, device_password, device_type) VALUES (%s, %s, %s, %s, %s)"
+        query = f"INSERT INTO devices (device_ip, device_name, device_username, device_password, device_type, add_date) VALUES (%s, %s, %s, %s, %s, CURRENT_DATE)"
         data = (deviceIp, deviceName, deviceUsername, devicePassword, deviceType)
 
         cursor.execute(query, data)
