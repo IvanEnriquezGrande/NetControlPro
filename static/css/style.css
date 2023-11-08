@@ -24,10 +24,35 @@ body .confs {
     align-items: center;
 }
 
-body .confs_cont{
+body .confs_cont {
     padding: 20px;
     border: 2px solid lightgrey;
     border-radius: 15px;
 }
 
+body .generalContainer {
+    padding: 20px;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
 
+body .container {
+    padding: 20px;
+    display: flex;
+}
+
+body .container_l{
+    padding: 30px;
+    border: 1.5px solid #3498db;
+    border-radius: 5px;
+}
+
+body .container_r{
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    border: 1.5px solid #3498db;
+    border-radius: 5px;
+}
