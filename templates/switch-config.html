@@ -1,8 +1,18 @@
 {% extends 'base.html' %}
 {% block title %}Configuración del router{% endblock %}
 {% block content %}
+<head>
+    <link rel="stylesheet" href="style.css">
+</head>
 <body>
     <h1>Switch Configuration</h1>
     <p>ID: {{ switch_id }}</p>
+
+    <label class="toggle-switch">
+        <input type="checkbox">
+        <span class="slider"></span>
+        <span class="label-text">Toggle</span>
+    </label>
+      
 </body>
 {% endblock %}
