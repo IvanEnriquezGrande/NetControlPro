@@ -25,9 +25,8 @@
             <div class="alert alert-success alert-dismissible fade show" role="alert" style="position: relative;">
                 {{ message }}
         {% endif %}
-                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close" style="position: absolute; top: 50%; transform: translateX(50%); transform: translateY(-50%); right: 10px;">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+            <button type="button" data-bs-dismiss="alert" class="btn-close" aria-label="Close">
+            </button>
             </div>
 
     {% endfor %}
@@ -174,6 +173,7 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
     <script src="../static/js/sort-table.js"></script>
+    <script src="../static/js/alerts.js"></script>
 </body>
 
 {% endblock %}
