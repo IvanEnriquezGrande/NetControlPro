@@ -90,7 +90,7 @@
                                                 <div class="form-group row py-1">
                                                     <label class="col-form-label col-sm-6">IP del Dispositivo:</label>
                                                     <div class="col-sm-6">
-                                                        <input class="form-control border border-secondary" type="text" name="deviceIp" value="{{ device.device_ip }}">
+                                                        <input class="form-control border border-secondary" type="text" name="deviceIp" value="{{ device.device_ip }}" pattern="^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$" title="Introduce una IP valida">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row py-1">
