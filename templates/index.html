@@ -18,7 +18,7 @@
 <body>
     {% for message in get_flashed_messages() %}
 
-        {% if message[0:2] == 'Er'%}
+        {% if message[0:5] == 'Error'%}
             <div class="alert alert-danger alert-dismissible fade show" role="alert" style="position: relative;">
                 {{ message }}      
         {% else %}
@@ -76,7 +76,6 @@
                                     </a>
                                 </td>
                             </tr>
-
 
                             <!-- Edit device Modal -->
                             <div class="modal fade" id="modal{{device.device_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -178,6 +177,5 @@
 </body>
 
 {% endblock %}
-
 
 </html>

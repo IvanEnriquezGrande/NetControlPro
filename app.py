@@ -1,8 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from conectar_dispositivo import conexion_equipo
 from database import conectar_db
 
 app = Flask(__name__)
+
+app.secret_key = "your_secret_key"
 
 @app.route("/add", methods=['POST'])
 def add():
@@ -10,21 +12,28 @@ def add():
     conexion = conectar_db()
     cursor = conexion.cursor(dictionary=True)
 
-    if request.method == 'POST':
-        deviceIp = request.form['deviceIp']
-        deviceName = request.form['deviceName']
-        deviceUsername = request.form['deviceUsername']
-        devicePassword = request.form['devicePassword']
+    try:
+        if request.method == 'POST':
+            deviceIp = request.form['deviceIp']
+            deviceName = request.form['deviceName']
+            deviceUsername = request.form['deviceUsername']
+            devicePassword = request.form['devicePassword']
 
-        deviceType = conexion_equipo(deviceIp, deviceUsername, devicePassword)
+            deviceType = conexion_equipo(deviceIp, deviceUsername, devicePassword)
 
-        query = f"INSERT INTO devices (device_ip, device_name, device_username, device_password, device_type, add_date) VALUES (%s, %s, %s, %s, %s, CURRENT_DATE)"
-        data = (deviceIp, deviceName, deviceUsername, devicePassword, deviceType)
+            query = f"INSERT INTO devices (device_ip, device_name, device_username, device_password, device_type, add_date) VALUES (%s, %s, %s, %s, %s, CURRENT_DATE)"
+            data = (deviceIp, deviceName, deviceUsername, devicePassword, deviceType)
 
-        cursor.execute(query, data)
-        conexion.commit()
+            cursor.execute(query, data)
+            conexion.commit()
 
+            flash("El dispositivo se agregó correctamente")
+            return redirect(url_for('index'))
+        
+    except Exception as e:
+        flash("Error: La conexión TCP al dispositivo ha fallado. Las posibles causan son: 1. Nombre de host o dirección ip incorrectas. 2. Puerto TCP equivocado. Configuración de dispositivo: " + deviceIp)
         return redirect(url_for('index'))
+        
 
 @app.route('/delete/<id>')
 def delete(id):
@@ -38,6 +47,7 @@ def delete(id):
     cursor.execute(query, data)
     conexion.commit()
 
+    flash("El dispositivo se ha eliminado")
     return redirect(url_for('index'))
 
 
@@ -59,6 +69,7 @@ def edit(id):
     cursor.execute(query, data) 
     conexion.commit()
 
+    flash("Los datos del dispositivo se actualizaron correctamente")
     return redirect(url_for('index'))
 
 #MUESTRA SOLO LOS ROUTERS    
