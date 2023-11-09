@@ -24,12 +24,13 @@ body .confs {
     align-items: center;
 }
 
-body .confs_cont{
+body .confs_cont {
     padding: 20px;
     border: 2px solid lightgrey;
     border-radius: 15px;
 }
 
+<<<<<<< HEAD
 .toggle-switch {
     position: relative;
     display: inline-block;
@@ -86,3 +87,31 @@ input:checked + .slider:before {
     -ms-transform: translateX(26px);
     transform: translateX(26px);
 }
+=======
+body .generalContainer {
+    padding: 20px;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+body .container {
+    padding: 20px;
+    display: flex;
+}
+
+body .container_l{
+    padding: 30px;
+    border: 1.5px solid #3498db;
+    border-radius: 5px;
+}
+
+body .container_r{
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    border: 1.5px solid #3498db;
+    border-radius: 5px;
+}
+>>>>>>> af4221a141f7a840111f17582fe05aff1573f5ff
