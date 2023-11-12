@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-from conectar_dispositivo import conexion_equipo
+from conectar_dispositivo import *
 from database import conectar_db, DatabaseConnectionError
 
 app = Flask(__name__)
@@ -19,7 +19,7 @@ def add():
             deviceUsername = request.form['deviceUsername']
             devicePassword = request.form['devicePassword']
 
-            deviceType = conexion_equipo(deviceIp, deviceUsername, devicePassword)
+            deviceType = get_device_type(deviceIp, deviceUsername, devicePassword)
 
             query = f"INSERT INTO devices (device_ip, device_name, device_username, device_password, device_type, add_date) VALUES (%s, %s, %s, %s, %s, CURRENT_DATE)"
             data = (deviceIp, deviceName, deviceUsername, devicePassword, deviceType)
@@ -192,7 +192,37 @@ def index():
 # Route for switch configuration
 @app.route("/switch-config/<device_id>")
 def switch_config(device_id):
-    return render_template('switch-config.html', switch_id=device_id)
+    try:
+        #Connection to database
+        conexion = conectar_db()
+        cursor = conexion.cursor(dictionary=True)
+
+        #Retrieve the device information
+        query = f"SELECT device_ip, device_username, device_password FROM devices WHERE device_id = %s"
+        data = [device_id]
+        cursor.execute(query,data)
+        device_info = cursor.fetchall()
+
+        ip = device_info[0].get('device_ip')
+        username = device_info[0].get('device_username')
+        password = device_info[0].get('device_password')
+
+        
+        #Connection to specific device
+        device = device_connection(ip, username, password)
+        
+        #VLANs RAW Output we need to parse and show in the switch-config.html
+        raw_vlans = get_device_vlans(device)
+        print(raw_vlans)
+
+        disable_cdp(device)
+        activate_cdp(device)
+        activate_root_bridge_primaty(device)
+        
+
+    except DatabaseConnectionError as e:
+        pass
+    return render_template('switch-config.html', switch_id=id)
 
 # Route for router configuration
 @app.route("/router-config/<device_id>")
