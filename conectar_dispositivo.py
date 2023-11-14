@@ -18,7 +18,6 @@ def obtener_tipo_disp(dispositivo):
         return 'router'
 
 def obtener_tipo_dispositivo(dispositivo):
-    
     output = dispositivo.send_command('show vlan brief')
     print(output)
     
@@ -41,4 +40,4 @@ def conexion_switch(ip, username, password):
     insertar_tipo_dispositivo(tipo_dispositivo)
 
     return 0
-
+    
