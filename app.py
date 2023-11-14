@@ -217,7 +217,7 @@ def switch_config(device_id):
 
         disable_cdp(device)
         activate_cdp(device)
-        activate_root_bridge_primary(device)
+        activate_root_bridge(device)
         
 
     except DatabaseConnectionError as e:

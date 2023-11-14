@@ -39,8 +39,11 @@ def get_device_vlans(equipo):
     raw_vlans = equipo.send_command('show vlan brief')
     return raw_vlans
 
-def modify_stp_value(device):
-    pass
+def modify_stp_value(device, vlan, value):
+    commands = [f'spanning-tree vlan {vlan} priority {value}']
+    device.enable()
+    output = device.send_config_set(commands)
+    return output
 
 def activate_cdp(device):
     commands = ['cdp run']
@@ -54,7 +57,7 @@ def disable_cdp(device):
     output = device.send_config_set(commands)
     return output
 
-def activate_root_bridge_primary(device):
-    commands = ['spanning-tree vlan 1 root primary']
+def activate_root_bridge(device, vlan, root):
+    commands = [f'spanning-tree vlan {vlan} root {root}']
     device.enable()
     device.send_config_set(commands)
