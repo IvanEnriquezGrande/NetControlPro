@@ -217,10 +217,10 @@ def switch_config(device_id):
 
         disable_cdp(device)
         activate_cdp(device)
-        activate_root_bridge(device)
-        
-
+        activate_root_bridge(device, 1, 'primary')
     except DatabaseConnectionError as e:
+        pass
+    except:
         pass
     return render_template('switch-config.html', switch_id=id)
 

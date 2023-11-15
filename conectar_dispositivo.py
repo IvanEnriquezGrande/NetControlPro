@@ -1,23 +1,19 @@
 from netmiko import ConnectHandler
-from database import conectar_db
 
-def insertar_tipo_dispositivo(dispositivo):
-    mydb = conectar_db()
-    cursor = mydb.cursor()
+#Method that connnects to a specific device
+def device_connection(ip, username, password):
+    switch = {
+        'host': ip,
+        'username': username,
+        'password': password,
+        'secret': password,
+        'device_type': 'cisco_ios',
+        'read_timeout_override': 90
+    }
+    conexion = ConnectHandler(**switch)
+    return conexion
 
-    cursor.execute("INSERT INTO devices (device_type) VALUES (dispositivo);")
-    mydb.commit()
-    mydb.close()
-    
-def obtener_tipo_disp(dispositivo):
-    datos_dispositivo = dispositivo.get_facts()
-
-    if 'vlan_list' in datos_dispositivo:
-        return 'switch'
-    else:
-        return 'router'
-
-def obtener_tipo_dispositivo(dispositivo):
+def device_type(dispositivo):
     output = dispositivo.send_command('show vlan brief')
     print(output)
     
@@ -26,18 +22,42 @@ def obtener_tipo_dispositivo(dispositivo):
     else:
         return "switch"
     
-#@app.route('/conexion-switch', methods=["GET", "POST"])
-def conexion_switch(ip, username, password):
+def get_device_type(ip, username, password):
     switch = {
-        'ip': ip,
+        'host': ip,
         'username': username,
-        'passsword': password,
+        'password': password,
         'device_type': 'cisco_ios',
     }
 
     conexion = ConnectHandler(**switch)
-    tipo_dispositivo = obtener_tipo_dispositivo(conexion)
-    insertar_tipo_dispositivo(tipo_dispositivo)
+    tipo_dispositivo = device_type(conexion)
+    return tipo_dispositivo
 
-    return 0
-    
+
+def get_device_vlans(equipo):
+    raw_vlans = equipo.send_command('show vlan brief')
+    return raw_vlans
+
+def modify_stp_value(device, vlan, value):
+    commands = [f'spanning-tree vlan {vlan} priority {value}']
+    device.enable()
+    output = device.send_config_set(commands)
+    return output
+
+def activate_cdp(device):
+    commands = ['cdp run']
+    device.enable()
+    output = device.send_config_set(commands)
+    return output
+
+def disable_cdp(device):
+    commands = ['no cdp run']
+    device.enable()
+    output = device.send_config_set(commands)
+    return output
+
+def activate_root_bridge(device, vlan, root):
+    commands = [f'spanning-tree vlan {vlan} root {root}']
+    device.enable()
+    device.send_config_set(commands)
