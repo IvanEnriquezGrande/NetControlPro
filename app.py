@@ -222,7 +222,7 @@ def switch_config(device_id):
         pass
     except:
         pass
-    return render_template('switch-config.html', switch_id=id)
+    return render_template('switch-config.html', switch_id=device_id)
 
 # Route for router configuration
 @app.route("/router-config/<device_id>")

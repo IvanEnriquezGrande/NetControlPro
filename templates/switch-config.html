@@ -79,11 +79,84 @@
                 </div>
                 <div class="modal-body">
                     <form action="#" method="POST">
+                        <!-- ID del Dispositivo -->
                         <div class="form-group row py-1">
                             <label class="col-form-label col-sm-6">ID del Dispositivo:</label>
                             <div class="col-sm-6">
-                                <input class="form-control border border-secondary" type="text" name="deviceIp" disabled value="{{ switch_id }}">
+                                <input class="form-control border border-secondary" type="text" name="deviceIp" disabled
+                                    value="{{ switch_id }}">
                             </div>
+                        </div>
+                        <!-- Prioridad del Puente -->
+                        <div class="form-group row py-1">
+                            <label class="col-form-label col-sm-6">Prioridad del Puente:</label>
+                            <div class="col-sm-6">
+                                <input class="form-control border border-secondary" type="text" name="bridgePriority"
+                                    placeholder="Prioridad">
+                            </div>
+                        </div>
+                        <!-- ID del Puente -->
+                        <div class="form-group row py-1">
+                            <label class="col-form-label col-sm-6">ID del Puente:</label>
+                            <div class="col-sm-6">
+                                <input class="form-control border border-secondary" type="text" name="bridgeId"
+                                    placeholder="ID">
+                            </div>
+                        </div>
+                        <!-- Modo Puente Raíz -->
+                        <div class="form-group row py-1">
+                            <label class="col-form-label col-sm-6">Modo de Puente Raíz:</label>
+                            <div class="col-sm-6">
+                                <select class="form-select border border-secondary" name="rootBridgeMode">
+                                    <option value="manual">Manual</option>
+                                    <option value="auto">Automático</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Modo de Selección de Puerto -->
+                        <div class="form-group row py-1">
+                            <label class="col-form-label col-sm-6">Modo de Selección de Puerto:</label>
+                            <div class="col-sm-6">
+                                <select class="form-select border border-secondary" name="portSelectionMode">
+                                    <option value="auto">Automático</option>
+                                    <option value="manual">Manual</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Modo Portfast -->
+                        <div class="form-group row py-1">
+                            <label class="col-form-label col-sm-6">Modo Portfast:</label>
+                            <div class="col-sm-6">
+                                <select class="form-select border border-secondary" name="portfastMode">
+                                    <option value="disable">Deshabilitar</option>
+                                    <option value="enable">Habilitar</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Root Guard -->
+                        <div class="form-group row py-1">
+                            <label class="col-form-label col-sm-6">Root Guard:</label>
+                            <div class="col-sm-6">
+                                <select class="form-select border border-secondary" name="rootGuard">
+                                    <option value="enable">Habilitar</option>
+                                    <option value="disable">Deshabilitar</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- BPDUs Guard -->
+                        <div class="form-group row py-1">
+                            <label class="col-form-label col-sm-6">BPDUs Guard:</label>
+                            <div class="col-sm-6">
+                                <select class="form-select border border-secondary" name="bpduGuard">
+                                    <option value="enable">Habilitar</option>
+                                    <option value="disable">Deshabilitar</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Otros campos para la configuración de STP -->
+                        <!-- ... -->
+                        <div class="modal-footer">
+                            <input type="submit" value="Guardar" class="btn btn-primary">
                         </div>
                     </form>
                 </div>
@@ -91,6 +164,8 @@
         </div>
     </div>
     <!-- Fin de STP modal -->
+
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
