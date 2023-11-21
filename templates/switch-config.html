@@ -43,6 +43,8 @@
                             <th scope="col">VLAN</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Estado</th>
+                            <th scope="col">Interfaz</th>
+                       
                         </tr>
                     </thead>
                     <tbody>
@@ -50,27 +52,19 @@
                             <td>VLAN-99</td>
                             <td>default</td>
                             <td>active</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th scope="col">Interfaz</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
                             <td>Fa01</td>
                         </tr>
                     </tbody>
                 </table>
+
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-primary" type="button" id="btn-create-vlan{{switch_id}}" data-bs-toggle="modal" data-bs-target="#modal-vlan{{switch_id}}" >Crear VLAN</button>
+                </div>
             </div>
         </div>
     </div>
     <!-- STP Modal -->
-    <div class="modal fade" id="modal{{switch_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
-        aria-hidden="true">
+    <div class="modal fade" id="modal{{switch_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -164,6 +158,49 @@
         </div>
     </div>
     <!-- Fin de STP modal -->
+
+
+    <!-- VLAN Modal -->
+    <div class="modal fade" id="modal-vlan{{switch_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Crear VLAN</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" method="POST">
+                        <!-- ID del Dispositivo -->
+                        <div class="form-group row py-1">
+                            <label class="col-form-label col-sm-6">ID del Dispositivo:</label>
+                            <div class="col-sm-6">
+                                <input class="form-control border border-secondary" type="text" name="deviceIp" disabled value="{{ switch_id }}">
+                            </div>
+                        </div>
+                        <!-- Nombre de la VLAN -->
+                        <div class="form-group row py-1">
+                            <label class="col-form-label col-sm-6">Nombre de la VLAN:</label>
+                            <div class="col-sm-6">
+                                <input class="form-control border border-secondary" type="text" name="vlanName" placeholder="Nombre de la VLAN">
+                            </div>
+                        </div>
+                        <!-- Numero de VLAN -->
+                        <div class="form-group row py-1">
+                            <label class="col-form-label col-sm-6">Numero de VLAN:</label>
+                            <div class="col-sm-6">
+                                <input class="form-control border border-secondary" type="number" name="vlanNumber" placeholder="Numero de VLAN">
+                            </div>
+                        </div>
+                        <!-- ... -->
+                        <div class="modal-footer">
+                            <input type="submit" value="Guardar" class="btn btn-primary">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fin de VLAN modal -->
 
 
 

@@ -49,10 +49,11 @@ body .container_l{
     border-radius: 5px;
 }
 
-body .container_r{
+.container_r {
     padding: 30px;
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* Asegura que los elementos se apilen verticalmente */
+    align-items: flex-end; /* Alinea los elementos a la derecha */
     border: 1.5px solid #3498db;
     border-radius: 5px;
 }
