@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from conectar_dispositivo import *
 from database import conectar_db, DatabaseConnectionError
 
 app = Flask(__name__)
 
 app.secret_key = "your_secret_key"
+current_device = None
 
 @app.route("/add", methods=['POST'])
 def add():
@@ -189,9 +190,8 @@ def index():
         flash(str(e))
     return render_template('index.html', devices={})
 
-# Route for switch configuration
-@app.route("/switch-config/<device_id>")
-def switch_config(device_id):
+@app.route('/connect-device/<device_id>')
+def connect_device(device_id):
     try:
         #Connection to database
         conexion = conectar_db()
@@ -207,22 +207,54 @@ def switch_config(device_id):
         username = device_info[0].get('device_username')
         password = device_info[0].get('device_password')
 
-        
-        #Connection to specific device
-        device = device_connection(ip, username, password)
-        
-        #VLANs RAW Output we need to parse and show in the switch-config.html
-        raw_vlans = get_device_vlans(device)
+        current_device = device_connection(ip, username, password)
+        session['current_device'] = current_device
+    except DatabaseConnectionError as e:
+        pass
+    except Exception as e:
+        pass
+    return redirect(url_for('switch_config', device_id=device_id))
+
+# Route for switch configuration
+@app.route("/switch-config/<device_id>")
+def switch_config(device_id):
+    try:
+        current_device = session.get('current_device')
+        # VLANs RAW Output we need to parse and show in the switch-config.html
+        raw_vlans = get_device_vlans(current_device)
         print(raw_vlans)
 
-        disable_cdp(device)
-        activate_cdp(device)
-        activate_root_bridge(device, 1, 'primary')
+        # disable_cdp(current_device)
+        # activate_cdp(current_device)
+        # activate_root_bridge(current_device, 1, 'primary')
     except DatabaseConnectionError as e:
         pass
     except:
         pass
     return render_template('switch-config.html', switch_id=device_id)
+
+@app.route('/update-switch-state', methods=['POST'])
+def update_switch_state():
+    try:
+        current_device = session.get('current_device')
+        if current_device is None:
+            return {'status': 'error', 'message': 'Current device not found in the session'}
+        
+        data = request.get_json()
+        switch_type = data.get('switchType')
+        switch_state = data.get('switchState')
+        print(switch_type)
+        if switch_type == 'cdp':
+            if switch_state:
+                activate_cdp(current_device)
+            else:
+                disable_cdp(current_device)
+    except DatabaseConnectionError as e:
+        pass
+    except:
+        pass
+
+    return {'status': 'success'}
 
 # Route for router configuration
 @app.route("/router-config/<device_id>")
