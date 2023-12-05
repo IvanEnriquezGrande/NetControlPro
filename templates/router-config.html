@@ -5,35 +5,201 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NetControl</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sort-table.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
 </head>
+
 {% extends 'base.html' %}
-{% block title %}Página de Inicio{% endblock %}
+{% block title %}Configuración del router{% endblock %}
 {% block content %}
 
 <body>
-    <div class="confs">
+    <div class="generalContainer">
         <h1>Router Configuration</h1>
-        <div class="col-lg-6 offset confs_cont">
-            <p>ID: {{ router_id }}</p>
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                <label class="form-check-label" for="flexSwitchCheckDefault">OSPF</label>
-              </div>
+        <p>ID: {{ router_id }}</p>
+        <div class="container">
+            <div class="container_l">
+                <div class="form-check form-switch form-check-reverse">
+                    <input class="form-check-input" type="checkbox" id="ospfToggleSwitch">
+                    <label class="form-check-label" for="flexSwitchCheckReverse">OSPF</label>
+                </div>
+                <div class="d-grid gap-2" style="padding-top: 10PX;">
+                    <button class="btn btn-primary" type="button" id="btn-edit{{switch_id}}" data-bs-toggle="modal"
+                        data-bs-target="#modal{{switch_id}}">Configurar OSPF</button>
+                </div>
+            </div>
+            <div class="container_r">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Interfaz</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Protocol</th>
+                       
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>f0/1</td>
+                            <td>up</td>
+                            <td>down</td>
+                        </tr>
+                        <tr>
+                            <td>f0/2</td>
+                            <td>down</td>
+                            <td>down</td>
+                        </tr>
+                        <tr>
+                            <td>f0/3</td>
+                            <td>down</td>
+                            <td>down</td>
+                        </tr>
+                        <tr>
+                            <td>f0/4</td>
+                            <td>down</td>
+                            <td>down</td>
+                        </tr>
+                        <tr>
+                            <td>f0/5</td>
+                            <td>down</td>
+                            <td>down</td>
+                        </tr>
+                        <tr>
+                            <td>f0/6</td>
+                            <td>down</td>
+                            <td>down</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        
     </div>
-   
+    <!-- STP Modal -->
+    <div class="modal fade" id="modal{{switch_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Configuración de OSPF</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" method="POST">
+                        <!-- ID del Dispositivo -->
+                        <div class="form-group row py-1">
+                            <label class="col-form-label col-sm-6">ID del Dispositivo:</label>
+                            <div class="col-sm-6">
+                                <input class="form-control border border-secondary" type="text" name="deviceIp" disabled
+                                    value="{{ router_id }}">
+                            </div>
+                        </div>
+                        <!-- Prioridad del Puente -->
+                        <div class="form-group row py-1">
+                            <label class="col-form-label col-sm-6">Prioridad OSPF:</label>
+                            <div class="col-sm-6">
+                                <input class="form-control border border-secondary" type="text" name="bridgePriority"
+                                    placeholder="Prioridad">
+                            </div>
+                        </div>
+                        <!-- ID del Puente -->
+                        <div class="form-group row py-1">
+                            <label class="col-form-label col-sm-6">Número de area:</label>
+                            <div class="col-sm-6">
+                                <input class="form-control border border-secondary" type="text" name="bridgeId"
+                                    placeholder="area">
+                            </div>
+                        </div>
+                        <!-- Modo Puente Raíz -->
+                        <div class="form-group row py-1">
+                            <label class="col-form-label col-sm-6">Network Type:</label>
+                            <div class="col-sm-6">
+                                <select class="form-select border border-secondary" name="rootBridgeMode">
+                                    <option value="manual">Broadcast</option>
+                                    <option value="auto">Non Broadcast</option>
+                                    <option value="auto">Point to Point</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row py-1">
+                            <label class="col-form-label col-sm-6">Hello interval:</label>
+                            <div class="col-sm-6">
+                                <input class="form-control border border-secondary" type="text" name="bridgeId"
+                                    placeholder="interval">
+                            </div>
+                        </div>
+                        <div class="form-group row py-1">
+                            <label class="col-form-label col-sm-6">Dead interval:</label>
+                            <div class="col-sm-6">
+                                <input class="form-control border border-secondary" type="text" name="bridgeId"
+                                    placeholder="interval">
+                            </div>
+                        </div>
+                        <!-- Otros campos para la configuración de STP -->
+                        <!-- ... -->
+                        <div class="modal-footer">
+                            <input type="submit" value="Guardar" class="btn btn-primary">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fin de STP modal -->
+
+
+    <!-- VLAN Modal -->
+    <div class="modal fade" id="modal-vlan{{switch_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Crear VLAN</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" method="POST">
+                        <!-- ID del Dispositivo -->
+                        <div class="form-group row py-1">
+                            <label class="col-form-label col-sm-6">ID del Dispositivo:</label>
+                            <div class="col-sm-6">
+                                <input class="form-control border border-secondary" type="text" name="deviceIp" disabled value="{{ switch_id }}">
+                            </div>
+                        </div>
+                        <!-- Nombre de la VLAN -->
+                        <div class="form-group row py-1">
+                            <label class="col-form-label col-sm-6">Nombre de la VLAN:</label>
+                            <div class="col-sm-6">
+                                <input class="form-control border border-secondary" type="text" name="vlanName" placeholder="Nombre de la VLAN">
+                            </div>
+                        </div>
+                        <!-- Numero de VLAN -->
+                        <div class="form-group row py-1">
+                            <label class="col-form-label col-sm-6">Numero de VLAN:</label>
+                            <div class="col-sm-6">
+                                <input class="form-control border border-secondary" type="number" name="vlanNumber" placeholder="Numero de VLAN">
+                            </div>
+                        </div>
+                        <!-- ... -->
+                        <div class="modal-footer">
+                            <input type="submit" value="Guardar" class="btn btn-primary">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fin de VLAN modal -->
+
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
+    <script src="../static/js/sort-table.js"></script>
+    <script src="../static/js/toggle.js"></script>
 </body>
-
-
 {% endblock %}
 
 </html>
